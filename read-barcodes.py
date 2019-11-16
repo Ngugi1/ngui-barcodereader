@@ -10,10 +10,6 @@ import requests
 
 API_END_POINT = "http://127.0.0.1:3000/"
 
-res = requests.get(API_END_POINT + "fetch", "1")
-print(res.text)
-
-
 def sendBarcodes(barcodes):
     data = {'barcodes': barcodes}
     res = requests.post(API_END_POINT + "upload", json={"barcodes": data})
@@ -31,6 +27,7 @@ time.sleep(3.0)
 found = set()
 cv2.startWindowThread()
 # loop over the frames from the video stream
+# Try to read 500 times
 while True:
     # grab the frame from the threaded video stream and resize it to
     # have a maximum width of 400 pixels
