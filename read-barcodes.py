@@ -4,7 +4,7 @@ import cv2
 import time
 import requests
 
-API_END_POINT = "http://127.0.0.1:3000/"
+API_END_POINT = "http://52.91.230.14:3000/"
 
 def sendBarcodes(barcodes):
     data = {'barcodes': barcodes}
@@ -15,8 +15,11 @@ def sendBarcodes(barcodes):
 # initialize the video stream and allow the camera sensor to warm up
 print("[INFO] starting video stream...")
 vc = cv2.VideoCapture(0)
+vc.set(cv2.CAP_PROP_AUTOFOCUS, 0) # turn the autofocus off
+vc.set(3, 1280) # set the Horizontal resolution
+vc.set(4, 720) # Set the Vertical resolution
 # vs = VideoStream(usePiCamera=True).start()
-time.sleep(1.0)
+time.sleep(2.0)
 found = set()
 # loop over the frames from the video stream
 while True:
@@ -43,10 +46,12 @@ while True:
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
         # if the barcode text is currently not in our CSV file, write
         # the timestamp + barcode to disk and update the set
+        print(barcodeData)
+
         if barcodeData not in found:
-            print("{}\n").format(barcodeData)
+            print(barcodeData)
             found.add(barcodeData)
-            # sendBarcodes(list(found))
+            sendBarcodes([barcodeData])
         # show the output frame
         cv2.imshow("Barcode Scanner", gray)
 # close the output CSV file do a bit of cleanup
