@@ -3,13 +3,14 @@ from pyzbar import pyzbar
 import cv2
 import time
 import requests
+import json
 
 API_END_POINT = "http://52.91.230.14:3000/"
 
 def sendBarcodes(barcodes):
     data = {'barcodes': barcodes}
     res = requests.post(API_END_POINT + "upload", json={"barcodes": data})
-    print("Results are:: {}\n").format(res.text)
+    print("Results are:: {}\n").format(res.json())
 
 
 # initialize the video stream and allow the camera sensor to warm up
@@ -25,8 +26,8 @@ found = set()
 while True:
     # grab the frame from the threaded video stream and resize it to
     ret, frame = vc.read()
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    cv2.imshow('frame',gray)
+    # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    # cv2.imshow('frame',gray)
     # Gray frames 
     # find the barcodes in the frame and decode each of the barcodes
     barcodes = pyzbar.decode(frame)
