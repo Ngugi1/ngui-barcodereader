@@ -14,7 +14,7 @@ def sendBarcodes(barcodes):
 
 # initialize the video stream and allow the camera sensor to warm up
 print("[INFO] starting video stream...")
-vc = cv2.VideoCapture(1)
+vc = cv2.VideoCapture(0)
 vc.set(cv2.CAP_PROP_AUTOFOCUS, 0) # turn the autofocus off
 vc.set(3, 1280) # set the Horizontal resolution
 vc.set(4, 720) # Set the Vertical resolution
@@ -25,8 +25,8 @@ found = set()
 while True:
     # grab the frame from the threaded video stream and resize it to
     ret, frame = vc.read()
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    cv2.imshow('frame',gray)
+    #gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    cv2.imshow('frame',frame)
     # Gray frames 
     # find the barcodes in the frame and decode each of the barcodes
     barcodes = pyzbar.decode(frame)
